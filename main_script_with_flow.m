@@ -2,11 +2,15 @@ clear
 close all
 clc
 tic
-rw=0.108;
-n = 1; % n>1 if you want to compare diffents compiles
+rw=0.108;%radius
+n = 2; % n>1 if you want to compare diffents compiles
+c_ase = 'a';
+%c_ase = 'b';
+%c_ase = 'c';
+%c_ase = 'd';
 for k = 1:n
-%% Cases
-% % Case A
+%% c_ases
+% % c_ase A
 
 
 qinj=500;   %flow-rate
@@ -17,7 +21,7 @@ h=[10 15];  %thickness per layer
 ksj=[500 100];  %skin zone permeability per layer
 rsj=[0.3 0.5];  %skin zone radii
 
-% % Case B
+% % c_ase B
 % qinj=200;
 % phi=0.12;
 % muo=1.0;
@@ -27,7 +31,7 @@ rsj=[0.3 0.5];  %skin zone radii
 % rsj=[0.25 0];
 
 
-% % Case C
+% % c_ase C
 % qinj = 400;
 % phi = 0.15;
 % muo = 1.5;
@@ -38,7 +42,7 @@ rsj=[0.3 0.5];  %skin zone radii
 % % rsj = [0.4 0.5 0.3];
 
 
-%%Case D
+%%c_ase D
 % qinj=100;
 % phi=0.25;
 % muo=2.3;
@@ -103,7 +107,7 @@ t=t(1:end-1);
     n_layers = length(rsj);
     pwf = get_pwf(t,rf,rw,rsj,ksj,kj,qinj,h,muo,muw,kro,krw,phi,ct,alphat); 
     
-    include_q = 1; %zero in case you don't want to include flow-rate
+    include_q = 1; %zero in c_ase you don't want to include flow-rate
     if include_q
         root_flow = [2,16,32,48,63]; %flow-rate indices to consider
         q_i = [];
@@ -136,7 +140,7 @@ t=t(1:end-1);
     ks_true = ksj;
     kj_true = kj;
     
-    Ne = 1000;
+    Ne = 100;
     Na = 4;
     
     d_obs = pwf;
@@ -387,7 +391,7 @@ ylabel('\DeltaP (kgf/cm^2)')
 
 
 p = gcf;
-nomepressao=sprintf('caso_%s_pressao_.eps',caso);
+nomepressao=sprintf('c_ase_%s_pressao_.eps',c_ase);
 exportgraphics(p,nomepressao,'ContentType','vector')
 
 %flow-rate graphic
@@ -420,7 +424,7 @@ if n_layers~=1 && include_q
         ylabel('Q(m^3/d)')
         legend('Initial Ensemble','Final Ensemble','Observed Data(Q)','Mean')
         q = gcf;
-        nameofplotq=sprintf('caso_%s_vazao_layer%i.eps',caso,j);
+        nameofplotq=sprintf('c_ase_%s_vazao_layer%i.eps',c_ase,j);
         exportgraphics(q,nameofplotq,'ContentType','vector')
     end
 end
@@ -439,7 +443,7 @@ for i=1:n_layers
     xlabel('Skin zone radius')
     ylabel('Frequency')
     rsj_fig = gcf;
-        nameofplotrsj=sprintf('caso_%s_rs_layer%i.eps',caso,i);
+        nameofplotrsj=sprintf('c_ase_%s_rs_layer%i.eps',c_ase,i);
         exportgraphics(rsj_fig,nameofplotrsj,'ContentType','vector')
     figure
     if cte_ksj == 0 
@@ -456,7 +460,7 @@ for i=1:n_layers
     xlabel('Skin zone Permeability')
     ylabel('Frequency')
     ksj_fig = gcf;
-        nameofplotksj=sprintf('caso_%s_kslayer%i.eps',caso,i);
+        nameofplotksj=sprintf('c_ase_%s_kslayer%i.eps',c_ase,i);
         exportgraphics(ksj_fig,nameofplotksj,'ContentType','vector')
     figure
     if cte_kj == 0
@@ -469,7 +473,7 @@ for i=1:n_layers
     xlabel('Permeability')
     ylabel('Frequency')
     kj_fig = gcf;
-    nameofplotkj=sprintf('caso_%s_klayer%i.eps',caso,i);
+    nameofplotkj=sprintf('c_ase_%s_klayer%i.eps',c_ase,i);
         exportgraphics(kj_fig,nameofplotkj,'ContentType','vector')
 end
 
